@@ -12,10 +12,7 @@ function LoginPage() {
 	const [studentId, setStudentId] = useState("");
 	const [text, setText] = useState("");
 	const [status, setStatus] = useState(false);
-	const {user, setUser, setUserInfo} = useContext(userInfo)
-	const handleChange = (e) => {
-		setStudentId(e.target.value);
-	};
+	const { user, setUser, setUserInfo } = useContext(userInfo);
 
 	const handleSubmit = async (e) => {
 		e.preventDefault();
@@ -25,7 +22,7 @@ function LoginPage() {
 			});
 			if (response.status === 200) {
 				setStatus(false);
-				setUserInfo(response.data.result)
+				setUserInfo(response.data.result);
 				navigate("/confirm");
 			} else {
 				setText("Check Your Id");

@@ -5,8 +5,9 @@ const crypto = require('crypto');
 const nodemailer = require('nodemailer');
 const http = require('http');
 const request = require("request");
-// const bcrypt = require('bcrypt');
+const session = require('express-session');
 const cors = require('cors');
+const { all } = require('axios');
 
 const app = express();
 
@@ -50,11 +51,10 @@ app.post('/login', (req, res) =>
                 const query = "INSERT INTO `otp`(`id`, `otp`) VALUES (?,?)";
                 db.query(query, [stdId, otp], (err, results) =>
                 {
-                    whatsApp(stdPhone, otp);
-                    if (whatsApp) {
+                    // whatsApp(stdPhone, otp);
+                    if (true) {
                         return res.status(200).json({ message: "OTP sent successfully", result: result });
                     } else {
-                        console.log("error");
                     }
                 });
             };
@@ -66,26 +66,37 @@ app.post('/otpVerify', (req, res) =>
 {
     const { num1, num2, num3, num4, num5, stdId } = req.body;
     const userOtp = num1.toString() + num2.toString() + num3.toString() + num4.toString() + num5.toString();
-    
     const query = "SELECT * FROM `otp` WHERE `id` = ? AND `otp` = ?";
     db.query(query, [stdId, userOtp], (err, result) =>
     {
         if (result.length > 0) {
-            console.log("verified");
             const query = "DELETE FROM `otp` WHERE `id` = ? AND `otp` = ?";
-            db.query(query,[stdId, userOtp], (err, result) =>
+            db.query(query, [stdId, userOtp], (err, result) =>
             {
                 if (err) {
-                    console.log("error deleting otp" + err);
+                    return res.status(400).json({ message: "Unknown Error" });
                 } else {
-                    console.log("otp successfully deleted");
+                    return res.status(200).json({ message: "OTP Successful" });
                 }
-            })
+            });
         } else {
-            console.log("incorrect OTP");
+            return res.status(401).json({ message: "Incorrect OTP" });
         }
-    })
-})
+    });
+});
+app.post('/getResult', (req, res) =>
+{
+    const { stdId } = req.body;
+    const query = "SELECT * FROM `result` WHERE `idNumber` = ?";
+    db.query(query, [stdId], (err, result) =>
+    {
+        if (result.length > 0) {
+            return res.status(200).json({ message: "Result Fetched", result: result });
+        } else {
+            return res.status(401).json({ message: "Unknown Error" });
+        }
+    });
+});
 
 
 
