@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 20, 2024 at 04:15 PM
+-- Generation Time: Jun 20, 2024 at 11:20 PM
 -- Server version: 10.4.27-MariaDB
 -- PHP Version: 8.2.0
 
@@ -167,30 +167,6 @@ CREATE TABLE `otp` (
   `otp` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `otp`
---
-
-INSERT INTO `otp` (`rn`, `id`, `otp`) VALUES
-(2, 'R/1234/56', '65664'),
-(3, 'R/1234/56', '92858'),
-(4, 'R/1234/56', '89991'),
-(5, 'R/1234/56', '40720'),
-(6, 'R/1234/56', '72203'),
-(7, 'R/1234/56', '51889'),
-(8, 'R/1234/56', '25058'),
-(9, 'R/1234/56', '83281'),
-(10, 'R/1234/56', '63181'),
-(11, 'R/1234/56', '61335'),
-(12, 'R/1234/56', '58340'),
-(13, 'R/1234/56', '12979'),
-(14, 'R/1234/56', '40619'),
-(15, 'R/1234/56', '34402'),
-(16, 'R/1234/56', '24259'),
-(17, 'R/1234/56', '30852'),
-(18, 'R/1234/56', '72707'),
-(19, 'R/1234/56', '45682');
-
 -- --------------------------------------------------------
 
 --
@@ -202,6 +178,26 @@ CREATE TABLE `personal_info` (
   `std_id` varchar(50) NOT NULL,
   `picture` varchar(255) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `result`
+--
+
+CREATE TABLE `result` (
+  `id` int(50) NOT NULL,
+  `idNumber` varchar(50) NOT NULL,
+  `totalMark` int(50) NOT NULL,
+  `grade` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `result`
+--
+
+INSERT INTO `result` (`id`, `idNumber`, `totalMark`, `grade`) VALUES
+(1, 'R/1234/56', 82, '');
 
 -- --------------------------------------------------------
 
@@ -374,6 +370,13 @@ ALTER TABLE `personal_info`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `result`
+--
+ALTER TABLE `result`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `stdId_fk` (`idNumber`);
+
+--
 -- Indexes for table `results`
 --
 ALTER TABLE `results`
@@ -432,13 +435,19 @@ ALTER TABLE `notification`
 -- AUTO_INCREMENT for table `otp`
 --
 ALTER TABLE `otp`
-  MODIFY `rn` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `rn` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT for table `personal_info`
 --
 ALTER TABLE `personal_info`
   MODIFY `id` int(50) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `result`
+--
+ALTER TABLE `result`
+  MODIFY `id` int(50) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `results`
@@ -467,6 +476,12 @@ ALTER TABLE `docs`
 --
 ALTER TABLE `otp`
   ADD CONSTRAINT `id_fk` FOREIGN KEY (`id`) REFERENCES `newstudents` (`idNumber`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `result`
+--
+ALTER TABLE `result`
+  ADD CONSTRAINT `stdId_fk` FOREIGN KEY (`idNumber`) REFERENCES `newstudents` (`idNumber`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `results`
