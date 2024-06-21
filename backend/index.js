@@ -90,6 +90,19 @@ app.post('/getResult', (req, res) =>
         }
     });
 });
+app.post('/getAllResult', (req, res) =>
+{
+    const stdId  = req.body.id;
+    const query = "SELECT * FROM `testresult` WHERE `idNumber` = ?";
+    db.query(query, [stdId], (err, result) =>
+    {
+        if (result.length > 0) {
+            return res.status(200).json({ message: "Result Fetched", result: result });
+        } else {
+            return res.status(401).json({ message: err });
+        }
+    });
+});
 
 
 
