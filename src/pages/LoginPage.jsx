@@ -2,6 +2,7 @@ import axios from "axios";
 import React, { useContext, useState } from "react";
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { userInfo } from "../context/userInfo";
+import { Url } from "../includes/url";
 
 function LoginPage() {
 	<link
@@ -17,7 +18,7 @@ function LoginPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("http://localhost:5000/login", {
+			const response = await axios.post(`${Url}/login`, {
 				id: studentId,
 			});
 			if (response.status === 200) {

@@ -51,10 +51,11 @@ app.post('/login', (req, res) =>
                 const query = "INSERT INTO `otp`(`id`, `otp`) VALUES (?,?)";
                 db.query(query, [stdId, otp], (err, results) =>
                 {
-                    // whatsApp(stdPhone, otp);
-                    if (true) {
+                    whatsApp(stdPhone, otp);
+                    if (whatsApp) {
                         return res.status(200).json({ message: "OTP sent successfully", result: result });
                     } else {
+                        return res.status(401).json({ message: "Incorrect WhatsApp Number" });
                     }
                 });
             };
@@ -70,15 +71,7 @@ app.post('/otpVerify', (req, res) =>
     db.query(query, [stdId, userOtp], (err, result) =>
     {
         if (result.length > 0) {
-            const query = "DELETE FROM `otp` WHERE `id` = ? AND `otp` = ?";
-            db.query(query, [stdId, userOtp], (err, result) =>
-            {
-                if (err) {
-                    return res.status(400).json({ message: "Unknown Error" });
-                } else {
-                    return res.status(200).json({ message: "OTP Successful" });
-                }
-            });
+            return res.status(200).json({ message: "OTP Successful" });
         } else {
             return res.status(401).json({ message: "Incorrect OTP" });
         }

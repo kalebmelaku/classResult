@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { userInfo } from "../context/userInfo";
 import axios from "axios";
+import { Url } from "../includes/url";
 
 function ConfirmPage() {
 	const navigate = useNavigate();
@@ -31,7 +32,7 @@ function ConfirmPage() {
 	const handleSubmit = async (e) => {
 		e.preventDefault();
 		try {
-			const response = await axios.post("http://localhost:5000/otpVerify", {
+			const response = await axios.post(`${Url}/otpVerify`, {
 				stdId: studentId,
 				num1,
 				num2,
